@@ -14,6 +14,10 @@ public class AuthService {
         return null;
     }
 
+    public static boolean register(User user) {
+        return false;
+    }
+
     public void logout() {
         return;
     }

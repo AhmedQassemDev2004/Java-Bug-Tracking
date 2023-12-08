@@ -29,6 +29,8 @@ public class Main {
             System.exit(0);
         }
 
+        System.out.println(user.toString());
+
         switch (user.getRole()) {
             case ADMIN -> {
                 adminView(user);
@@ -47,7 +49,8 @@ public class Main {
 
     public static void adminView(User user) {
         Admin admin = new Admin(user);
-        // write admin view and actions
+        //write admin view and actions
+        //System.out.println("Monitor\n1-Bugs \n2-Users");
     }
 
     public static void testerView(User user) {

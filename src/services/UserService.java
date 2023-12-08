@@ -1,6 +1,8 @@
 package services;
 
 import entites.User;
+import enums.Role;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -90,8 +92,15 @@ public class UserService implements Service<User> {
                 String name = userData[1];
                 String email = userData[2];
                 String password = userData[3];
+                Role role = null;
+                switch (userData[4]) {
+                    case "ADMIN" -> role = Role.ADMIN;
+                    case "DEVELOPER" -> role = Role.DEVELOPER;
+                    case "TESTER" -> role = Role.TESTER;
+                    case "PROJECT_MANAGER" -> role = Role.PROJECT_MANAGER;
+                }
                 // Assuming the Role enum is present in the User class
-                User user = new User(id, name, email, password, null);
+                User user = new User(id, name, email, password, role);
                 users.add(user);
             }
         } catch (IOException e) {

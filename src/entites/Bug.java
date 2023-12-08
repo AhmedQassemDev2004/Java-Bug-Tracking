@@ -13,7 +13,7 @@ public class Bug {
     private String projectName;
     private String bugDate;
     private BugStatus status;
-    private User[] developers;
+    private User developer;
 
 
     public Bug(Integer id,
@@ -24,7 +24,7 @@ public class Bug {
                String projectName,
                String bugDate,
                BugStatus status,
-               User[] developers) {
+               User developer) {
         this.id = id;
         this.bugName = bugName;
         this.bugType = bugType;
@@ -33,7 +33,7 @@ public class Bug {
         this.projectName = projectName;
         this.bugDate = bugDate;
         this.status = status;
-        this.developers = developers;
+        this.developer = developer;
     }
 
     public Integer getId() {
@@ -100,11 +100,11 @@ public class Bug {
         this.status = status;
     }
 
-    public User[] getDevelopers() {
-        return developers;
+    public User getDeveloper() {
+        return developer;
     }
 
-    public void setDevelopers(User[] developers) {
-        this.developers = developers;
+    public void setDeveloper(User developer) {
+        this.developer = developer;
     }
 }
