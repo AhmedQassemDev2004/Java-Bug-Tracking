@@ -30,13 +30,11 @@ public class UserService implements Service<User> {
     }
     @Override
     public ArrayList<User> find() {
-        // Implement find logic here
         return new ArrayList<>(users);
     }
 
     @Override
     public User findOne(Integer id) {
-        // Implement findOne logic here
         for (User user : users) {
             if (user.getId().equals(id)) {
                 return user;

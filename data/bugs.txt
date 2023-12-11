@@ -1,1 +1,1 @@
-id, name, type, priority, bugLevel, projectName, bugDate, status, developerId
+id, name, type, priority, bugLevel, projectName, bugDate, status, developerId,testerId

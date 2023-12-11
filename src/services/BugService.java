@@ -1,10 +1,9 @@
 package services;
 
+import Users.Tester;
 import entites.Bug;
 import entites.User;
-import entities.Bug;
 import enums.BugStatus;
-import entities.User;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -32,7 +31,8 @@ public class BugService implements Service<Bug> {
                         + bug.getProjectName() + ","
                         + bug.getBugDate() + ","
                         + bug.getStatus() + ","
-                        + bug.getDeveloper().getId());
+                        + bug.getDeveloper().getId() + ","
+                        + bug.getTester().getId());
             }
         } catch (IOException e) {
             System.out.println(e.getMessage());
@@ -98,15 +98,16 @@ public class BugService implements Service<Bug> {
                 String projectName = bugData[5];
                 String bugDate = bugData[6];
                 BugStatus status = BugStatus.valueOf(bugData[7]);
-                // Extract other bug properties here
                 User developer = userService.findOne(Integer.parseInt(bugData[8]));
+                User tester = userService.findOne(Integer.parseInt(bugData[9]));
 
-                Bug bug = new Bug(id, bugName, bugType, priority, bugLevel, projectName, bugDate, status, developer);
+                Bug bug = new Bug(id, bugName, bugType, priority, bugLevel, projectName, bugDate, status, developer, (Tester) tester);
                 bugs.add(bug);
             }
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
     }
+
 
 }

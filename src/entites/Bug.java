@@ -1,5 +1,6 @@
 package entites;
 
+import Users.Tester;
 import enums.BugStatus;
 
 import java.util.Arrays;
@@ -14,6 +15,7 @@ public class Bug {
     private String bugDate;
     private BugStatus status;
     private User developer;
+    private User tester;
 
 
     public Bug(Integer id,
@@ -24,7 +26,8 @@ public class Bug {
                String projectName,
                String bugDate,
                BugStatus status,
-               User developer) {
+               User developer,
+               User tester) {
         this.id = id;
         this.bugName = bugName;
         this.bugType = bugType;
@@ -34,6 +37,7 @@ public class Bug {
         this.bugDate = bugDate;
         this.status = status;
         this.developer = developer;
+        this.tester = tester;
     }
 
     public Integer getId() {
@@ -106,5 +110,13 @@ public class Bug {
 
     public void setDeveloper(User developer) {
         this.developer = developer;
+    }
+
+    public User getTester() {
+        return tester;
+    }
+
+    public void setTester(User tester) {
+        this.tester = tester;
     }
 }
