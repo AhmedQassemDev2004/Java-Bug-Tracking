@@ -105,4 +105,21 @@ public class UserService implements Service<User> {
             System.out.println(e.getMessage());
         }
     }
+
+    public static void displayUsers(ArrayList<User> users) {
+        String format = "| %-4s | %-20s | %-30s | %-20s | %-15s |\n";
+        String str = "";
+        str += ("+----------------------------------------------------------------------------------------+\n");
+        str += (String.format(format, "ID", "Name", "Email", "Password", "Role"));
+        System.out.print(str);
+
+        for (User user : users) {
+            String s = "";
+            s += ("+----------------------------------------------------------------------------------------+\n");
+            s += (String.format(format, user.getId(), user.getName(), user.getEmail(),
+                    user.getPassword(), user.getRole()));
+            s += ("+----------------------------------------------------------------------------------------+\n");
+            System.out.print(s);
+        }
+    }
 }
