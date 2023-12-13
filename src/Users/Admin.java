@@ -111,6 +111,7 @@ public class Admin extends User {
             if (password.equals(confirmPassword)) {
                 User user = new User(null, username, email, password, role);
                 userService.insert(user);
+                System.out.println("User added successfully");
             } else System.out.println("Password Does Not Match");
         } else {
             return;

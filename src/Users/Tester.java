@@ -58,7 +58,7 @@ public class Tester extends User {
         LocalDateTime currentDateTime = LocalDateTime.now();
 
         // Format the date and time as a string
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String bugDate = currentDateTime.format(formatter);
 
         User dev = new User(0, null, null, null, null);
@@ -94,9 +94,9 @@ public class Tester extends User {
                 UserService userService = new UserService();
                 ArrayList<User> allUsers = userService.find();
 
-                ArrayList<User> developers = allUsers.stream()
+                ArrayList<User> developers = new ArrayList<>(allUsers.stream()
                         .filter(user -> user.getRole() == Role.DEVELOPER)
-                        .collect(Collectors.toCollection(ArrayList::new));
+                        .collect(Collectors.toList()));
 
                 if (!developers.isEmpty()) {
                     UserService.displayUsers(developers);
@@ -133,37 +133,26 @@ public class Tester extends User {
 
 
     public void attachScreenShot() {
+            Scanner scanner = new Scanner(System.in);
+            BugService bugService = new BugService();
 
-        try {
-            // Create an instance of Robot class
-            Robot robot = new Robot();
+            monitorBugs();
 
-            // Capture the entire screen
-            BufferedImage screenshot = robot
-                    .createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
+            System.out.print("Enter bug id: ");
+            int bugId = scanner.nextInt();
 
-            // Save the screenshot to a file
-            saveScreenshot(screenshot, "fullScreen.png");
+            System.out.print("Enter screen shot path :");
+            String path = scanner.next();
 
-            // Sleep for a moment (you might need to adjust this based on your use case)
-            Thread.sleep(2000);
+            Bug bug = bugService.findOne(bugId);
 
-            // Capture a specific area (replace the coordinates and size as needed)
-            Rectangle areaRect = new Rectangle(100, 100, 500, 500);
-            BufferedImage areaScreenshot = robot.createScreenCapture(areaRect);
+            if(bug == null) {
+                System.out.println("Error: No bug found");
+                return;
+            }
 
-            // Save the area screenshot to a file
-            saveScreenshot(areaScreenshot, "areaScreenshot.png");
-
-        } catch (AWTException | IOException | InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private static void saveScreenshot(BufferedImage image, String fileName) throws IOException {
-        // Save the image to a file
-        ImageIO.write(image, "png", new File(fileName));
-        System.out.println("Screenshot saved: " + fileName);
+            bug.setScreenshotPath(path);
+            bugService.update(bug);
     }
 
     public void monitorBugs() {

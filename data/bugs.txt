@@ -1,2 +1,2 @@
-1,test,test,test,test,test,2023-12-13 15:41:43,COMPLETED,5,2
-2,teste,test,test,test,test,2023-12-13 16:52:04,COMPLETED,5,2
+1,test,test,test,test,test,2023-12-13 15:41:43,COMPLETED,5,2,NULL
+2,teste,test,test,test,test,2023-12-13 16:52:04,COMPLETED,5,2,C:\test\test\test2.png

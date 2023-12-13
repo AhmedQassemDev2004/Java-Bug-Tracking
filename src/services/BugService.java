@@ -20,26 +20,6 @@ public class BugService implements Service<Bug> {
     }
 
     @Override
-    public void saveDataToFile() {
-        try (PrintWriter writer = new PrintWriter(new FileWriter(file))) {
-            for (Bug bug : bugs) {
-                writer.println(bug.getId() + ","
-                        + bug.getBugName() + ","
-                        + bug.getBugType() + ","
-                        + bug.getPriority() + ","
-                        + bug.getBugLevel() + ","
-                        + bug.getProjectName() + ","
-                        + bug.getBugDate() + ","
-                        + bug.getStatus() + ","
-                        + (bug.getDeveloper() != null ? bug.getDeveloper().getId() : "0") + ","
-                        + (bug.getTester() != null ? bug.getTester().getId() : "0"));
-            }
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    @Override
     public void insert(Bug bug) {
         // Generate ID automatically
         int lastId = (bugs.isEmpty() ? 0 : bugs.get(bugs.size() - 1).getId());
@@ -85,7 +65,28 @@ public class BugService implements Service<Bug> {
         }
     }
 
-    private void loadDataFromFile() {
+    @Override
+    public void saveDataToFile() {
+        try (PrintWriter writer = new PrintWriter(new FileWriter(file))) {
+            for (Bug bug : bugs) {
+                writer.println(bug.getId() + ","
+                        + bug.getBugName() + ","
+                        + bug.getBugType() + ","
+                        + bug.getPriority() + ","
+                        + bug.getBugLevel() + ","
+                        + bug.getProjectName() + ","
+                        + bug.getBugDate() + ","
+                        + bug.getStatus() + ","
+                        + (bug.getDeveloper() != null ? bug.getDeveloper().getId() : "0") + ","
+                        + (bug.getTester() != null ? bug.getTester().getId() : "0") + ","
+                        + (bug.getScreenshotPath().isEmpty() ? "NULL" : bug.getScreenshotPath()));  // Add screenshotPath to the end
+            }
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void loadDataFromFile() {
         bugs = new ArrayList<>();
 
         try (Scanner scanner = new Scanner(file)) {
@@ -101,11 +102,13 @@ public class BugService implements Service<Bug> {
                 BugStatus status = BugStatus.valueOf(bugData[7].trim());
                 User developer = userService.findOne(Integer.parseInt(bugData[8].trim()));
                 User tester = userService.findOne(Integer.parseInt(bugData[9].trim()));
+                String screenshotPath = bugData[10].trim();  // Extract screenshotPath
 
                 if (tester == null) {
                     System.out.println("NO TESTER FOUND FOR " + id);
                 }
                 Bug bug = new Bug(id, bugName, bugType, priority, bugLevel, projectName, bugDate, status, developer, tester);
+                bug.setScreenshotPath(screenshotPath);  // Set screenshotPath
                 bugs.add(bug);
             }
         } catch (IOException e) {
@@ -113,23 +116,26 @@ public class BugService implements Service<Bug> {
         }
     }
 
+
     public static void displayBugs(ArrayList<Bug> bugs) {
-        String format = "| %-4s | %-10s | %-10s | %-10s | %-10s | %-10s | %-10s | %-10s | %-10s | %-10s\n";
+        String format = "| %-4s | %-10s | %-10s | %-10s | %-10s | %-10s | %-10s | %-10s | %-10s | %-10s | %-50s\n";
         String str = "";
-        str += ("+----------------------------------------------------------------------------------------------------------------------------------+\n");
-        str += (String.format(format, "id", "name", "Type", "priority", "Level", "projectName", "Date", "status", "developer name", "tester name"));
+        str += ("+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+\n");
+        str += (String.format(format, "id", "name", "Type", "priority", "Level", "projectName", "Date", "status", "developer name", "tester name", "screenshotPath"));
         System.out.print(str);
 
         for (Bug bug : bugs) {
             String s = "";
-            s += ("+----------------------------------------------------------------------------------------------------------------------------------+\n");
+            s += ("+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+\n");
             s += (String.format(format, bug.getId(), bug.getBugName(), bug.getBugType(),
                     bug.getPriority(), bug.getBugLevel(), bug.getProjectName(), bug.getBugDate(),
                     bug.getStatus(),
                     bug.getDeveloper() != null ? bug.getDeveloper().getName() : "-",
-                    bug.getTester() != null ? bug.getTester().getName() : "-"));
-            s += ("+----------------------------------------------------------------------------------------------------------------------------------+\n");
+                    bug.getTester() != null ? bug.getTester().getName() : "-",
+                    bug.getScreenshotPath() != null ? bug.getScreenshotPath() : "-"));
+            s += ("+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+\n");
             System.out.print(s);
         }
     }
+
 }

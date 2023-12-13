@@ -114,7 +114,7 @@ public class ProjectManager extends User {
                 case 2:
                     checkTesterPerformance();
                     break;
-                case 0:
+                case 3:
                     System.out.println("Exiting performance check.");
                     break;
                 default:

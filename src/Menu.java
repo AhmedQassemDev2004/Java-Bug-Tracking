@@ -98,9 +98,7 @@ class Menu {
                 case 2 -> tester.assignToDeveloper();
                 case 3 -> tester.attachScreenShot();
                 case 4 -> tester.monitorBugs();
-                case 5 -> {
-                    return;
-                }
+                case 5 -> System.exit(0);
 
                 default -> throw new IllegalStateException("Unexpected value: " + choice);
             }
@@ -110,38 +108,45 @@ class Menu {
     private void developerMenu() {
         Developer dev = new Developer(user);
         Scanner scanner = new Scanner(System.in); // to use it in code
-        System.out.println("1) View assigned Bug\n2) Change Bug Status");
-        int mChoice = scanner.nextInt();
-        switch (mChoice) {
-            case 1:
-                dev.viewAssignedBugs();
-                break;
-            case 2:
-                dev.changeBugStatus();
-                break;
-            default:
-                System.out.println("Wrong Input");
-                break;
-        }
+        int mChoice;
+        do {
+            System.out.println("1) View assigned Bug\n2) Change Bug Status\n3) Exit");
+            mChoice = scanner.nextInt();
+            switch (mChoice) {
+                case 1:
+                    dev.viewAssignedBugs();
+                    break;
+                case 2:
+                    dev.changeBugStatus();
+                    break;
+                default:
+                    System.out.println("Wrong Input");
+                    break;
+            }
+        }while (mChoice != 3);
     }
 
     private void projectManagerMenu() {
         ProjectManager pr = new ProjectManager(user);
         Scanner scanner = new Scanner(System.in);
-        System.out.println("""
-                1 - Check developers and testers performance.
-                2 - Monitor Open and Closed bugs.
-                """);
-        int choice = scanner.nextInt();
-        switch (choice) {
-            case 1:
-                pr.checkDeveloperAndTesterPerformance();
-                break;
-            case 2:
-                pr.monitorBugs();
-                break;
-            default:
-                System.out.println("INVALID CHOICE");
-        }
+
+        int choice;
+        do {
+            System.out.println("""
+                    1 - Check developers and testers performance.
+                    2 - Monitor Open and Closed bugs.
+                    """);
+            choice = scanner.nextInt();
+            switch (choice) {
+                case 1:
+                    pr.checkDeveloperAndTesterPerformance();
+                    break;
+                case 2:
+                    pr.monitorBugs();
+                    break;
+                default:
+                    System.out.println("INVALID CHOICE");
+            }
+        } while (choice != 3);
     }
 }

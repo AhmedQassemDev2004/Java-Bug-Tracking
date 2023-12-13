@@ -16,6 +16,7 @@ public class Bug {
     private BugStatus status;
     private User developer;
     private User tester;
+    private String screenshotPath;
 
 
     public Bug(Integer id,
@@ -118,5 +119,13 @@ public class Bug {
 
     public void setTester(User tester) {
         this.tester = tester;
+    }
+
+    public String getScreenshotPath() {
+        return screenshotPath;
+    }
+
+    public void setScreenshotPath(String screenshotPath) {
+        this.screenshotPath = screenshotPath;
     }
 }
